@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversores y Calculadoras</title>
+</head>
+<body>
+    <h1>Conversores y Calculadoras</h1>
+
+    <!-- Conversor de velocidad -->
+    <h2>Convertir Velocidad (Km/h)</h2>
+    <input type="number" id="velocidad" placeholder="Velocidad en Km/h">
+    <button onclick="convertirVelocidad()">Convertir</button>
+    <p id="resultadoVelocidad"></p>
+
+    <!-- Costo de llamada telefónica -->
+    <h2>Calcular Costo de Llamada</h2>
+    <input type="number" id="minutos" placeholder="Duración en minutos">
+    <button onclick="calcularCostoLlamada()">Calcular</button>
+    <p id="resultadoLlamada"></p>
+
+    <!-- Conversor de temperatura -->
+    <h2>Conversor de Temperatura</h2>
+    <input type="number" id="temperatura" placeholder="Temperatura">
+    <select id="unidad">
+        <option value="C">Celsius</option>
+        <option value="F">Fahrenheit</option>
+    </select>
+    <button onclick="convertirTemperatura()">Convertir</button>
+    <p id="resultadoTemperatura"></p>
+
+    <!-- Calculadora de IMC -->
+    <h2>Calculadora de IMC</h2>
+    <input type="number" id="peso" placeholder="Peso en Kg">
+    <input type="number" id="altura" placeholder="Altura en metros">
+    <button onclick="calcularIMC()">Calcular IMC</button>
+    <p id="resultadoIMC"></p>
+
+    <script>
+        function convertirVelocidad() {
+            const velocidadKmh = document.getElementById("velocidad").value;
+            const metrosPorHora = velocidadKmh * 1000;
+            const millasPorHora = velocidadKmh * 0.621371;
+            document.getElementById("resultadoVelocidad").innerText = 
+                `Velocidad: ${velocidadKmh} km/h = ${metrosPorHora} m/h = ${millasPorHora.toFixed(2)} mi/h`;
+        }
+
+        function calcularCostoLlamada() {
+            const minutos = document.getElementById("minutos").value;
+            let costo;
+            if (minutos <= 5) {
+                costo = 200;
+            } else {
+                costo = 200 + (minutos - 5) * 150;
+            }
+            document.getElementById("resultadoLlamada").innerText = `El costo de la llamada de ${minutos} minutos es: $${costo}`;
+        }
+
+        function convertirTemperatura() {
+            const temperatura = parseFloat(document.getElementById("temperatura").value);
+            const unidad = document.getElementById("unidad").value;
+            let tempCelsius, tempFahrenheit, mensaje = "";
+
+            if (unidad === 'C') {
+                tempCelsius = temperatura;
+                tempFahrenheit = (temperatura * 9/5) + 32;
+            } else if (unidad === 'F') {
+                tempFahrenheit = temperatura;
+                tempCelsius = (temperatura - 32) * 5/9;
+            }
+
+            if (tempCelsius <= 0 || tempFahrenheit <= 32) {
+                mensaje = "imposible pues";
+            } else if ((tempCelsius >= 5 && tempCelsius <= 15) || (tempFahrenheit >= 37 && tempFahrenheit <= 50)) {
+                mensaje = "ponete un busito";
+            } else if ((tempCelsius >= 16 && tempCelsius <= 25) || (tempFahrenheit >= 51 && tempFahrenheit <= 77)) {
+                mensaje = "Está melo el día";
+            } else if (tempCelsius > 25 || tempFahrenheit > 77) {
+                mensaje = "estas caldo mano";
+            }
+
+            document.getElementById("resultadoTemperatura").innerText = 
+                `Temperatura: ${tempCelsius.toFixed(1)} °C = ${tempFahrenheit.toFixed(1)} °F. ${mensaje}`;
+        }
+
+        function calcularIMC() {
+            const peso = parseFloat(document.getElementById("peso").value);
+            const altura = parseFloat(document.getElementById("altura").value);
+            const imc = peso / (altura * altura);
+            let mensaje = "";
+
+            if (imc < 18.5) {
+                mensaje = "Bajo peso, estas flaco mani";
+            } else if (imc >= 18.5 && imc <= 24.9) {
+                mensaje = "estas melo rey";
+            } else if (imc >= 25.0 && imc <= 29.9) {
+                mensaje = "te falta gym";
+            } else if (imc >= 30.0) {
+                mensaje = "te falta mas gym";
+            }
+
+            document.getElementById("resultadoIMC").innerText = `Su IMC es: ${imc.toFixed(1)}. ${mensaje}`;
+        }
+    </script>
+</body>
+</html>
